@@ -1,0 +1,110 @@
+{% extends "wishes_app/base.html"%}
+{% load static %}
+
+{% block title %}Login/Registration{% endblock %}
+
+{% block content %}
+
+
+<div class="container mt-4">  
+    {% if messages %}
+        <div class="alert {{ request.session.level_mensaje }} alert-dismissible" role="alert" >
+            <ul>
+                {% for message in messages %}
+                    <li><strong>{{message}}</strong></li>    
+                {% endfor %}                   
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </ul>
+        </div>        
+    {% endif %}  
+    
+    <div class="row row-col-12">
+      <h3>Welcome to your portal of wishes</h3>
+    </div>
+    <div class="row row-cols-1 row-cols-md-2 g-4">           
+        <div class="col">
+            <form action="/register" method="POST">
+                {% csrf_token %}
+                <div class="card">
+                    <div class="card-header text-white bg-primary">  
+                        <h2 class="card-title">Register</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3 row">
+                            <label for="name" class="col-sm-3 col-form-label fw-bold">Name</label>
+                            <div class="col-sm-9">
+                                <input class="form-control" type="text" name="name" id="name" maxlength=50 required>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="username" class="col-sm-3 col-form-label fw-bold">Username</label>
+                            <div class="col-sm-9">
+                                <input class="form-control" type="text" name="username" id="username" maxlength=50 required>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="password" class="col-sm-3 col-form-label fw-bold">Password</label>
+                            <div class="col-sm-9">
+                                <input class="form-control" type="password" name="password" id="password" required>
+                                <ul class="fst-italic fs-6">
+                                    <li>La contraseña debe tener al menos 8 caracteres</li>
+                                    <li>Al menos un número</li>
+                                    <li>Al menos una mayúscula</li>
+                                    <li>NO puede tener otros símbolos.</li>
+                                </ul>
+                            </div>
+                            
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="password_confirm" class="col-sm-3 col-form-label fw-bold">Confirm Pass</label>
+                            <div class="col-sm-9">
+                                <input class="form-control" type="password" name="password_confirm" id="password_confirm" required>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="datehired" class="col-sm-3 col-form-label fw-bold">Date Hired</label>
+                            <div class="col-sm-9">
+                                <input class="form-control" type="date" name="datehired" id="datehired">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer text-center">
+                        <div class="d-grid gap-2 col-4 mx-auto">
+                            <input class="btn btn-primary" type="submit" value="Register">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col">
+            <form action="/login" method="POST">
+                {% csrf_token %}
+                <div class="card border-0">
+                    <div class="card-header text-white bg-primary">
+                        <h2 class="card-title">Login</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3 row">
+                            <label for="username" class="col-sm-3 col-form-label fw-bold">Username</label>
+                            <div class="col-sm-9">
+                                <input class="form-control" type="text" name="username_login" id="username_login" maxlength=50 required>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="password" class="col-sm-3 col-form-label fw-bold">Password</label>
+                            <div class="col-sm-9">
+                                <input class="form-control" type="password" name="password_login" id="password_login" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer text-center bg-transparent border-0">
+                        <div class="d-grid gap-2 col-4 mx-auto">
+                            <input class="btn btn-primary" type="submit" value="Login">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

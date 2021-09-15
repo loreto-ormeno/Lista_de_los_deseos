@@ -1,0 +1,78 @@
+{% extends "wishes_app/base.html"%}
+{% load static %}
+
+{% block title %}My Wish List{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    {% if request.session.usuario %}
+    <div class="row align-center">
+        <div class="col-9">    
+            <h3>Hello, {{request.session.usuario.name}}!</h3>           
+        </div>
+        <div class="col-3">
+            <h3><a href="/logout">Logout</a> </h3>
+        </div>
+    </div>
+    {% endif %}    
+    <div class="row align-center">
+        <div class="col-7 mt-4">
+            <h4>Your Wish List:</h4>
+            <table class="table table-bordered border-dark">
+                <thead class="text-white bg-dark">
+                    <tr class="text-center">
+                        <th>Item</th>
+                        <th>Added by</th>
+                        <th>Date Added</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                        <tr class="text-center">
+                            <td><a href= '/wish_items/{{item.id}}'>{{item.description}}</a></td>
+                            <td>{{item.creator}}</td>
+                            <td>{{item.created_at|date:'N d Y'}}</td>
+                            {% if request.session.usuario.id == item.creator.id %}
+                                <td><a href='/erase_wish/{{item.id}}'>Delete</a></td>
+                            {% else %}
+                                <td><a href='/remove_wish/{{item.id}}'>Remove from my Wishlist</a></td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row align-center">
+        <div class="col-7 mt-4">
+            <h4>Other User's Wish List:</h4>
+            <table class="table table-bordered border-dark">
+                <thead class="text-white bg-dark">
+                    <tr class="text-center">
+                        <th>Item</th>
+                        <th>Added by</th>
+                        <th>Date Added</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for n_wish in no_wishes %}
+                        <tr class="text-center">
+                                <td><a href= '/wish_items/{{n_wish.id}}'>{{n_wish.description}}</a></td>
+                                <td>{{n_wish.creator.username}}</td>
+                                <td>{{n_wish.created_at|date:'N d Y'}}</td>
+                                <td><a href='/assign/{{n_wish.id}}'>Add to my Wishlist</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-10 mt-4 text-end">
+            <h3><a href='/wish_items/create'>Add Item</a> </h3>
+        </div>
+    </div>
+</div>
+{% endblock %}
